@@ -9,6 +9,9 @@ class LicenseAgreement extends StatefulWidget {
 }
 
 class _LicenseAgreementState extends State<LicenseAgreement> {
+
+  bool? _agree = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,48 +32,61 @@ class _LicenseAgreementState extends State<LicenseAgreement> {
       )
     );
   }
+  _licenseNext() {
+    return Expanded(
+      //flex: 2,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // CheckboxListTile(
+                //     title: const Text("Я ознакомился с правилами и принял их"),
+                //     value: _agree,
+                //     activeColor: Colors.blue,
+                //     checkColor: Colors.black38,
+                //
+                //     onChanged: (bool? value) {
+                //       setState(() {
+                //         _agree = value;
+                //       });
+                //     }
+                // )
+                Checkbox(
+                  checkColor: Colors.white,
+                  //fillColor: MaterialStateProperty.resolveWith(Colors.blue),
+                  value: _agree ,
+                  onChanged: (bool? value) {
+                    _agree = value!;
+                  }),
+                const Text("Я ознакомился с правилами и принял их")
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () => const LogInPage(),
+              child: const Text("Вход",
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green,
+                onPrimary: Colors.white,
+                shadowColor: Colors.greenAccent,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+                minimumSize: const Size(150, 70),
+                maximumSize: const Size(150, 70),//////// HERE
+              ),
+            )
+          ],
+        )
+    );
+  }
 }
 
-_licenseNext() {
-  bool _agree = false;
-  return Expanded(
-    //flex: 2,
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Checkbox(
-              checkColor: Colors.white,
-              //fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-              value: _agree ,
-              onChanged: (bool? value) {
-                _agree = value!;
-              }),
-            const Text("Я ознакомился с правилами и принял их")
-          ],
-        ),
-        ElevatedButton(
-          onPressed: () => const LogInPage(),
-          child: const Text("Вход",
-            style: TextStyle(
-              fontSize: 30,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green,
-            onPrimary: Colors.white,
-            shadowColor: Colors.greenAccent,
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            minimumSize: const Size(150, 70),
-            maximumSize: const Size(150, 70),//////// HERE
-          ),
-        )],
-    )
-  );
-}
+
 
 _licenseText() {
   return Expanded(
