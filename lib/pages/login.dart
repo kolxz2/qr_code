@@ -11,8 +11,8 @@ class LogInPage extends StatefulWidget {
 class _LogInPage extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomPaint(
+    return Scaffold(
+      body: CustomPaint(
         child: Stack(
           children: <Widget>[
             Padding(
@@ -21,7 +21,7 @@ class _LogInPage extends State<LogInPage> {
                 children: <Widget>[
                   _getHeader(),
                   _getInputs(),
-                  _getSignIn(),
+                  _getSignIn(context),
                 ],
               ),
             )
@@ -75,14 +75,19 @@ _getInputs() {
   );
 }
 
-_getSignIn() {
+_getSignIn(context) {
   return Container(
     padding: const EdgeInsets.only(bottom: 50),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ElevatedButton(
-            onPressed: () => const LicenseAgreement(),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LicenseAgreement()),
+            );
+          },
             child: const Text("Вход"),
             style: ElevatedButton.styleFrom(
               primary: Colors.green,

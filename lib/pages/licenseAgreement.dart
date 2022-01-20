@@ -34,36 +34,32 @@ class _LicenseAgreementState extends State<LicenseAgreement> {
   }
   _licenseNext() {
     return Expanded(
-      //flex: 2,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // CheckboxListTile(
-                //     title: const Text("Я ознакомился с правилами и принял их"),
-                //     value: _agree,
-                //     activeColor: Colors.blue,
-                //     checkColor: Colors.black38,
-                //
-                //     onChanged: (bool? value) {
-                //       setState(() {
-                //         _agree = value;
-                //       });
-                //     }
-                // )
-                Checkbox(
-                  checkColor: Colors.white,
-                  //fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                  value: _agree ,
-                  onChanged: (bool? value) {
-                    _agree = value!;
-                  }),
-                const Text("Я ознакомился с правилами и принял их")
-              ],
+            CheckboxListTile(
+                title: const Text("Я ознакомился с правилами и принял их",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5
+                  ),
+                ),
+                value: _agree,
+                activeColor: Colors.blue,
+                checkColor: Colors.black38,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _agree = value;
+                  });
+                }
             ),
             ElevatedButton(
-              onPressed: () => const LogInPage(),
+              onPressed: _agree! ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogInPage()),
+                );
+              } : null,
               child: const Text("Вход",
                 style: TextStyle(
                   fontSize: 30,
