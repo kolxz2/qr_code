@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code/pages/login.dart';
+import 'package:qr_code/pages/qrCode.dart';
 
 class LicenseAgreement extends StatefulWidget {
   const LicenseAgreement({Key? key}) : super(key: key);
@@ -11,6 +11,16 @@ class LicenseAgreement extends StatefulWidget {
 class _LicenseAgreementState extends State<LicenseAgreement> {
 
   bool? _agree = false;
+  bool _isEnd = false;
+  final _scrollController =  ScrollController();
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,38 +36,42 @@ class _LicenseAgreementState extends State<LicenseAgreement> {
       ),
       body: Column(
         children: <Widget> [
-          _licenseText(),
+          _licenseText(context),
           _licenseNext()
         ],
       )
     );
   }
+
   _licenseNext() {
+    // final double end = _scrollController.position.maxScrollExtent;
     return Expanded(
         child: Column(
           children: [
             CheckboxListTile(
-                title: const Text("Я ознакомился с правилами и принял их",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5
-                  ),
+              title: const Text("Я ознакомился с правилами и принял их",
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5
                 ),
-                value: _agree,
-                activeColor: Colors.blue,
-                checkColor: Colors.black38,
-                onChanged: (bool? value) {
+              ),
+              value: _agree,
+              activeColor: Colors.blue,
+              checkColor: Colors.black38,
+              onChanged: (bool? value) {
+                if (_isEnd){
                   setState(() {
                     _agree = value;
                   });
                 }
+              }
             ),
             ElevatedButton(
               onPressed: _agree! ? () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LogInPage()),
+                  MaterialPageRoute(builder: (context) => const QrCode()),
                 );
               } : null,
               child: const Text("Вход",
@@ -80,21 +94,36 @@ class _LicenseAgreementState extends State<LicenseAgreement> {
         )
     );
   }
-}
 
+  _licenseText(context ) {
+    return Expanded(
+      flex: 3,
+      child: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView.builder(
+          controller: _controller,
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return const ListTile(
+              title: Text(
+                "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                style: TextStyle(
+                  fontSize: 50,
+                ),
+              ),
+            );
+          }
+        )
+      )
+    );
+  }
 
-
-_licenseText() {
-  return Expanded(
-    flex: 3,
-    child: ListView(
-      children: const [
-        Text("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-          style: TextStyle(
-            fontSize: 50,
-          ),
-        ),
-      ],
-    ),
-  );
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        _isEnd = true;
+      });
+    }
+  }
 }
