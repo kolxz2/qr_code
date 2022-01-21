@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class QrCode extends StatefulWidget {
   const QrCode({Key? key}) : super(key: key);
@@ -16,18 +22,17 @@ class _QrCodeState extends State<QrCode> {
     // download
   }
 
-  // _getDownloadDirectory() async {
-  //   if (Platform.isAndroid) {
-  //     return await DownloadsPathProvider.downloadsDirectory;
-  //   }
-  //
-  //   // in this example we are using only Android and iOS so I can assume
-  //   // that you are not trying it for other platforms and the if statement
-  //   // for iOS is unnecessary
-  //
-  //   // iOS directory visible to user
-  //   return await getApplicationDocumentsDirectory();
-  // }
+  Future<Directory> _getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      return await DownloadsPathProvider.downloadsDirectory;
+    }
+    // in this example we are using only Android and iOS so I can assume
+    // that you are not trying it for other platforms and the if statement
+    // for iOS is unnecessary
+
+    // iOS directory visible to user
+    return await getApplicationDocumentsDirectory();
+  }
 
   @override
   Widget build(BuildContext context) {
