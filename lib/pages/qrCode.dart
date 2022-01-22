@@ -11,7 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
 class QrCode extends StatefulWidget {
-  const QrCode({Key? key}) : super(key: key);
+  const QrCode({Key key}) : super(key: key);
 
   @override
   State<QrCode> createState() => _QrCodeState();
@@ -64,11 +64,16 @@ class _QrCodeState extends State<QrCode> {
     }
   }
 
-  Future<Directory?> _getDownloadDirectory() async {
-    if (Platform.isAndroid) {
-      return await DownloadsPathProvider.downloadsDirectory; DownloadsPathProvider.downloadsDirectory;
+  Future<Directory> _getDownloadDirectory() async {
+    try {
+      if (Platform.isAndroid) {
+        return await DownloadsPathProvider.downloadsDirectory;
+        DownloadsPathProvider.downloadsDirectory;
+      }
+      return await getApplicationDocumentsDirectory();
+    } catch(e){
+      print(e);
     }
-    return await getApplicationDocumentsDirectory();
   }
 
   Future<void> _download() async {
